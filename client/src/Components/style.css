@@ -1,0 +1,25 @@
+.loginPage { 
+    background-color: rgba(255, 255, 255, 0.6); 
+    /*background: url('Images/login.jpg'); 
+    background: linear-gradient(rgba(11,11,11,0.5), rgba(10,10,10,0.5)), url('Images/login.jpeg'); */
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: 100% 100%; 
+} 
+
+.loginForm { 
+    background-color: rgba(1, 20, 58, 0.9); 
+    color: white; 
+} 
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  } 
+
+  .custom-bg {
+    background-color: #172b4d; /* Dark blue color */
+  }
+
+  .dashboard_heading{
+    color: #172b4d;
+  }

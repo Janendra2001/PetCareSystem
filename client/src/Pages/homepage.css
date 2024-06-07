@@ -1,0 +1,21 @@
+.navbar{
+    background: #081f36;
+}
+.brand, .list-item{
+    color: white !important;
+}
+
+.btn{
+    border-radius: 20px;
+}
+
+
+button.navbar-toggler.collapsed {
+    background: white !important;
+}
+
+
+button.navbar-toggler{
+    background: white !important;
+}
+
