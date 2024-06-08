@@ -309,6 +309,13 @@ router.get('/appointments/pending/doctor', (req, res) => {
 });
 
 
+//logout --------------------------------------------------------------------------------------------------------------------------------
+router.get('/logout', (req, res) => {
+  res.clearCookie('token');
+  return res.json({ Status: true });
+});
+
+
 
 
 

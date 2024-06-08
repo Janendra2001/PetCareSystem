@@ -374,6 +374,11 @@ router.put('/appointments/:appointmentId/cancel', async (req, res) => {
   }
 });
 
+//logout ------------------------------------------------------------------------------------------------------------------------------
+router.get('/logout/:petownerID', (req, res) => {
+  res.clearCookie('token');
+  return res.json({ Status: true });
+});
 
 
 export { router as petOwnerRouter };

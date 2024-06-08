@@ -86,7 +86,7 @@ function App() {
           <Route path='/dashboard/adddoctor' element={<AddDoctor />}></Route>
           <Route path='/dashboard/addmedicationitems' element={<AddMedicationItems />}></Route>
         </Route>
-      <Route path='/' element={<HomePage />} ></Route>
+      <Route path='/home' element={<HomePage />} ></Route>
       <Route path='/blog' element={<Blog />} ></Route>
       <Route path="/:name" element={<SingleDog/>}></Route>
       <Route path='/meetyourdoctor' element={<MeetYourDoctor />} ></Route>

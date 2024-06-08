@@ -11,11 +11,11 @@ const NavBar = () => {
   return (
     <Navbar expand="lg" className="navbar">
       <Container>
-        <Navbar.Brand href="/" className='brand'>ROYAL PET CARE</Navbar.Brand>
+        <Navbar.Brand href="/home" className='brand'>ROYAL PET CARE</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link href="/" className='nav-link text-light ms-3'>Home</Nav.Link>
+            <Nav.Link href="/home" className='nav-link text-light ms-3'>Home</Nav.Link>
             <Nav.Link href="/blog" className='nav-link text-light ms-3'>Blogs</Nav.Link>
             <Nav.Link href="/meetyourdoctor" className='nav-link text-light ms-3'>Meet Your Doctor</Nav.Link>
             <Nav.Link href="/userdashboards" className='nav-link text-light ms-3'>Dashboard</Nav.Link>
