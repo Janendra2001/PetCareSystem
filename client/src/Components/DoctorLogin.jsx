@@ -11,7 +11,8 @@ const DoctorLogin = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
+  axios.defaults.withCredentials = true;
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -20,6 +21,7 @@ const DoctorLogin = () => {
             password: values.password, // Send the plain password to the server
         });
         if (response.data.loginstatus) {
+          localStorage.setItem("valid", true)
             navigate(`/doctordashboard/${response.data.doctorId}`);
         } else {
             setError(response.data.Error);

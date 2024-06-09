@@ -4,6 +4,7 @@ import mysql from 'mysql';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import { promisify } from 'util';
+import { verifyUser } from '../verifyUser.js';
 
 dotenv.config();
 
@@ -29,14 +30,14 @@ router.post('/adminlogin', (req, res) => {
         if(err) return res.json({loginstatus: false, Error: "Query error"}) 
             if(result.length > 0) { 
                 const email = result[0].email; 
-                const token = jwt.sign({role: "admin", email: email}, "jwt_secret_key", {expiresIn: '1d'}); 
+                const token = jwt.sign({role: "admin", email: email, id: result[0].id}, "jwt_secret_key", {expiresIn: '1d'}); 
                 res.cookie('token', token) 
                 return res.json({loginstatus: true}) 
             } else { 
                 return res.json({loginstatus: false, Error: "wrong email or password"}) 
             }
 }) ; 
-}); 
+});
 
 
 //Medication Items---------------------------------------------------------------------------------------------------------------------
@@ -394,6 +395,9 @@ router.post('/appointments/:id/inprogress', (req, res) => {
 });
 
 //logout ---------------------------------------------------------------------------------------------------------------------
+router.get('/verify', verifyUser, (req, res) => {
+  return res.json({ Status: true, role: req.role, id: req.id, petownerId: req.petownerId, doctorId: req.doctorId });
+});
 router.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: true });

@@ -1,7 +1,7 @@
 import './App.css' 
 import 'bootstrap/dist/css/bootstrap.min.css' 
 import Login from './Components/Login' 
-import { BrowserRouter, Routes, Route } from 'react-router-dom' 
+import { BrowserRouter, Routes, Route} from 'react-router-dom' 
 import Dashboard from './Components/Dashboard' 
 import Home from './Components/Home' 
 import Appointments from './Components/Appointments'  
@@ -37,20 +37,28 @@ import EnterCases from './Components/EnterCases'
 import ViewPets from './Components/ViewPets'
 import SingleDog from './Pages/SingleDog'
 import DoctorAppointments from './Components/DoctorAppointments'
+import PrivateRoute from './Components/PrivateRoute'
 
 
 
 
 function App() {
+  
+
+  
 
   return (
     <BrowserRouter>
       <Routes> 
-        <Route path='/loginstart' element={<LoginStart />} ></Route>
+        <Route path='/' element={<LoginStart />} ></Route>
         <Route path='/adminlogin' element={<Login />} ></Route> 
         <Route path='/doctorlogin' element={<DoctorLogin />} ></Route>
         <Route path='/petownerlogin' element={<PetOwnerLogin />} ></Route>
-        <Route path='/petownerdashboard/:petownerId' element={<PetOwnerDashboard />} >
+        <Route path='/petownerdashboard/:petownerId' element={
+          <PrivateRoute>
+            <PetOwnerDashboard />
+          </PrivateRoute>
+          } >
           <Route path='' element={<PetOwnerHome />}></Route> 
           <Route path='/petownerdashboard/:petownerId/petownerappointments' element={<PetOwnerAppointments />}></Route> 
           <Route path='/petownerdashboard/:petownerId/viewdoctors' element={<ViewDoctors />}></Route> 
@@ -63,7 +71,11 @@ function App() {
           <Route path='/petownerdashboard/:petownerId/pets/:petid/delete' element={<Pets />}></Route>
           <Route path='/petownerdashboard/:petownerId/pets/:petId/view' element={<ViewPetCaseHistories />}></Route> 
         </Route>
-        <Route path='/doctordashboard/:doctorId' element={<DoctorDashboard />} >
+        <Route path='/doctordashboard/:doctorId' element={
+          <PrivateRoute>
+            <DoctorDashboard />
+          </PrivateRoute>
+          } >
           <Route path='' element={<DoctorHome />}></Route> 
           <Route path='/doctordashboard/:doctorId/doctorappointments' element={<DoctorAppointments />}></Route> 
           <Route path='/doctordashboard/:doctorId/doctors' element={<ViewDoctors />}></Route> 
@@ -75,7 +87,11 @@ function App() {
           <Route path='/doctordashboard/:doctorId/managepet/:petId/cases' element={<PetCasesRegister />}></Route>
           <Route path='/doctordashboard/:doctorId/entercases' element={<EnterCases />}></Route>
         </Route> 
-        <Route path='/dashboard' element={<Dashboard />} > 
+        <Route path='/dashboard' element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+          } > 
           <Route path='' element={<Home />}></Route> 
           <Route path='/dashboard/appointments' element={<Appointments />}></Route> 
           <Route path='/dashboard/doctors' element={<Doctors />}></Route> 

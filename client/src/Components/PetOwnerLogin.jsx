@@ -20,6 +20,7 @@ const PetOwnerLogin = () => {
                 password: values.password, // Send the plain password to the server
             });
             if (response.data.loginstatus) {
+                localStorage.setItem("valid", true);
                 navigate(`/petownerdashboard/${response.data.petownerId}/petownerprofile`);
             } else {
                 setError(response.data.Error);

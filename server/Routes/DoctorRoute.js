@@ -35,7 +35,7 @@ router.post('/doctorlogin', async (req, res) => {
     }
 
     const doctorId = existingUser[0].id; 
-    const token = jwt.sign({ role: "doctor", email: email, doctorId: doctorId }, "doctor_secret_key", { expiresIn: '1d' });
+    const token = jwt.sign({ role: "doctor", email: email, doctorId: doctorId }, "jwt_secret_key", { expiresIn: '1d' });
     res.cookie('token', token);
     return res.json({ loginstatus: true, doctorId: doctorId });
   } catch (error) {

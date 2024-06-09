@@ -12,7 +12,8 @@ const DoctorDashboard = () => {
     axios.get('http://localhost:3000/doctor/logout')
     .then((result) => {
     if(result.data.Status){
-          navigate('/doctorlogin');
+      localStorage.removeItem("valid")
+          navigate('/');
     }
 })
 }

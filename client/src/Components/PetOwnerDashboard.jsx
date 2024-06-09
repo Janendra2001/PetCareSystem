@@ -7,12 +7,13 @@ import './style.css';
 const PetOwnerDashboard = () => {
   const { petownerId } = useParams();
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
+   axios.defaults.withCredentials = true;
   const handleLogout = () => {
     axios.get('http://localhost:3000/petowner/logout/{petownerId}')
     .then((result) => {
     if(result.data.Status){
-          navigate('/petownerlogin');
+      localStorage.removeItem("valid")
+          navigate('/');
     }
 }).catch((err) => 
   console.log(err)

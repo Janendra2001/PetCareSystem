@@ -1,4 +1,4 @@
-import React, { useState } from 'react' 
+import React, { useState } from 'react'
 import './style.css' 
 import axios from 'axios' 
 import { useNavigate } from 'react-router-dom'
@@ -11,13 +11,16 @@ const Login = () => {
         password: '', 
     }) 
     const [error, setError] = useState(null) 
-    const navigate = useNavigate() 
-    axios.defaults.withCredentials = true;
+    const navigate = useNavigate()
+
+    
+      
     const handleSubmit = (event) => { 
         event.preventDefault() 
         axios.post('http://localhost:3000/auth/adminlogin', values) 
         .then(result => { 
-            if(result.data.loginstatus) { 
+            if(result.data.loginstatus) {
+                localStorage.setItem("valid", true)
                 navigate('/dashboard')
             } else { 
                 setError(result.data.Error)

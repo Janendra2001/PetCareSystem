@@ -7,12 +7,14 @@ import './style.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
+   axios.defaults.withCredentials = true;
+
   const handleLogout = () => {
       axios.get('http://localhost:3000/auth/logout')
       .then((result) => {
       if(result.data.Status){
-            navigate('/adminlogin');
+        localStorage.removeItem("valid")
+            navigate('/');
       }
   })
 }

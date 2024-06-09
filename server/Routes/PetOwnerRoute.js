@@ -73,7 +73,7 @@ router.post('/petownerlogin', async (req, res) => {
     }
 
     const petownerId = existingUser[0].id; 
-    const token = jwt.sign({ role: "petowner", email: email, petownerId: petownerId }, "pet_owner_secret_key", { expiresIn: '1d' });
+    const token = jwt.sign({ role: "petowner", email: email, petownerId: petownerId }, "jwt_secret_key", { expiresIn: '1d' });
     res.cookie('token', token);
     return res.json({ loginstatus: true, petownerId: petownerId });
   } catch (error) {
@@ -375,7 +375,7 @@ router.put('/appointments/:appointmentId/cancel', async (req, res) => {
 });
 
 //logout ------------------------------------------------------------------------------------------------------------------------------
-router.get('/logout/:petownerID', (req, res) => {
+router.get('/logout/:petownerId', (req, res) => {
   res.clearCookie('token');
   return res.json({ Status: true });
 });

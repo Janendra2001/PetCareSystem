@@ -23,7 +23,7 @@ const NavBar = () => {
           </Nav>
           
           <Nav className='ms-3'>
-          <button type="button" className='btn btn-success rounded-3' onClick={() => {navigate('/loginstart')}}>Login</button>
+          <button type="button" className='btn btn-success rounded-3' onClick={() => {navigate('/')}}>Login</button>
           </Nav><br/>
           <Nav className='ms-3'>
           <button type="button" className='btn btn-outline-success rounded-3' onClick={() => {navigate('/register')}}>Sign Up</button>
