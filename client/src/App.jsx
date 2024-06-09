@@ -38,6 +38,7 @@ import ViewPets from './Components/ViewPets'
 import SingleDog from './Pages/SingleDog'
 import DoctorAppointments from './Components/DoctorAppointments'
 import PrivateRoute from './Components/PrivateRoute'
+import PetCorner from './Pages/PetCorner'
 
 
 
@@ -106,6 +107,7 @@ function App() {
       <Route path='/blog' element={<Blog />} ></Route>
       <Route path="/:name" element={<SingleDog/>}></Route>
       <Route path='/meetyourdoctor' element={<MeetYourDoctor />} ></Route>
+      <Route path='/petcorner' element={<PetCorner/>}></Route>
       <Route path='/register' element={<Register />} ></Route>
       </Routes>
     </BrowserRouter>
