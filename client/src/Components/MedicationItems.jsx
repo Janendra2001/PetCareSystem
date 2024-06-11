@@ -212,54 +212,63 @@ const MedicationItems = ({ doctorId }) => {
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.medicationItemid}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.type}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.name}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{formatExpDate(medication.expDate)}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.receivedIssuedStatus}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.quantity}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{formatLastUpdatedDate(medication.lastUpdatedDate)}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.balance}</td>
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{medication.minquantity}<br/>
@@ -273,6 +282,7 @@ const MedicationItems = ({ doctorId }) => {
               <td
               style={{
                 backgroundColor:
+                medication.balance === 0 ? '#ee6b6e':
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>
