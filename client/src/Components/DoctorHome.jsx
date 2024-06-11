@@ -123,6 +123,36 @@ const DoctorHome = () => {
           </Card>
         </Col>
       </Row>
+      <Row className="mt-4">
+        <Col>
+        <Card className="shadow-sm border-3 border-info">
+      <Card.Body>
+        <h4 className="card-title"><strong>Disease Distribution</strong></h4>
+        <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+          <div style={{ width: '60%', height: '300px' }}>
+            <Pie data={diseaseDistributionData} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'right' }}}}/>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
+        </Col>
+      </Row><br/>
+      <Row>
+        <Col>
+          <Card className="shadow-sm border-23 border-primary">
+            <Card.Body>
+              <h4 className="card-title"><strong>Appointments per Month</strong></h4>
+              <div className="chart-container mt-3" style={{ width: '60%', height: '300px' }}>
+                <Bar data={appointmentsChartData} options={{ maintainAspectRatio: false }} />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+     
+
+
+
 
       <Row className="mb-4">
         <Col>
@@ -153,33 +183,6 @@ const DoctorHome = () => {
           </Card>
         </Col>
       </Row>
-      <Row className="mt-4">
-        <Col>
-        <Card className="shadow-sm border-3 border-info">
-      <Card.Body>
-        <h4 className="card-title"><strong>Disease Distribution</strong></h4>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
-          <div style={{ width: '60%', height: '300px' }}>
-            <Pie data={diseaseDistributionData} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'right' }}}}/>
-          </div>
-        </div>
-      </Card.Body>
-    </Card>
-        </Col>
-      </Row><br/>
-      <Row>
-        <Col>
-          <Card className="shadow-sm border-23 border-primary">
-            <Card.Body>
-              <h4 className="card-title"><strong>Appointments per Month</strong></h4>
-              <div className="chart-container mt-3" style={{ width: '60%', height: '300px' }}>
-                <Bar data={appointmentsChartData} options={{ maintainAspectRatio: false }} />
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-      
       
       <br/>
     </div>

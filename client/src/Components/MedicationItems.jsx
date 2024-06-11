@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Table, Button, Modal, Form } from 'react-bootstrap';
+import { Table, Button, Modal, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
 const MedicationItems = ({ doctorId }) => {
@@ -8,6 +8,7 @@ const MedicationItems = ({ doctorId }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showEditMinQuantityModal, setShowEditMinQuantityModal] = useState(false);
   const [selectedMedication, setSelectedMedication] = useState(null);
   const [editFormData, setEditFormData] = useState({
     type: '',
@@ -15,9 +16,12 @@ const MedicationItems = ({ doctorId }) => {
     expDate: '',
     receivedIssuedStatus: '',
     quantity: '',
-    balance: ''
+    balance: '',
+    minquantity: ''
   });
+  const [editMinQuantity, setEditMinQuantity] = useState('');
   const [initialEditFormData, setInitialEditFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,16 +62,26 @@ const MedicationItems = ({ doctorId }) => {
       expDate: medication.expDate.split('T')[0], // Ensure correct date format
       receivedIssuedStatus: medication.receivedIssuedStatus,
       quantity: medication.quantity,
-      balance: medication.balance
+      balance: medication.balance,
     };
     setEditFormData(initialData);
     setInitialEditFormData(initialData);
     setShowEditModal(true);
   };
 
+  const handleEditMinQuantity = (medication) => {
+    setSelectedMedication(medication.medicationItemid);
+    setEditMinQuantity(medication.minquantity);
+    setShowEditMinQuantityModal(true);
+  };
+
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
     setEditFormData({ ...editFormData, [name]: value });
+  };
+
+  const handleMinQuantityChange = (e) => {
+    setEditMinQuantity(e.target.value);
   };
 
   const handleEditFormSubmit = async (e) => {
@@ -78,6 +92,10 @@ const MedicationItems = ({ doctorId }) => {
     if (editFormData.receivedIssuedStatus === 'Received') {
       newBalance += quantity;
     } else if (editFormData.receivedIssuedStatus === 'Issued') {
+      if (quantity > newBalance) {
+        setErrorMessage('The existing quantity is not enough for the issued.');
+        return;
+      }
       newBalance -= quantity;
     }
 
@@ -92,8 +110,22 @@ const MedicationItems = ({ doctorId }) => {
       await axios.put(`http://localhost:3000/auth/medicationitems/${selectedMedication}`, updatedData);
       fetchMedications();
       setShowEditModal(false);
+      setErrorMessage('');
     } catch (error) {
       console.error('Error updating medication:', error);
+    }
+  };
+
+  const handleMinQuantitySubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`http://localhost:3000/auth/medicationitems/minquantity/${selectedMedication}`, {
+        minquantity: editMinQuantity
+      });
+      fetchMedications();
+      setShowEditMinQuantityModal(false);
+    } catch (error) {
+      console.error('Error updating min quantity:', error);
     }
   };
 
@@ -121,6 +153,16 @@ const MedicationItems = ({ doctorId }) => {
     const nameMatches = medication.name.toLowerCase().includes(searchLower);
     const typeMatches = medication.type.toLowerCase().includes(searchLower);
     return nameMatches || typeMatches;
+  });
+
+  // Sort medications to display those with quantity <= minquantity at the top
+  const sortedMedications = filteredMedications.sort((a, b) => {
+    if (a.balance <= a.minquantity && b.balance > b.minquantity) {
+      return -1;
+    } else if (a.balance > a.minquantity && b.balance <= b.minquantity) {
+      return 1;
+    }
+    return 0;
   });
 
   const isDoctorDashboard = location.pathname.includes('doctordashboard');
@@ -157,27 +199,88 @@ const MedicationItems = ({ doctorId }) => {
             <th>Quantity</th>
             <th>Last Updated Date</th>
             <th>Balance</th>
+            <th>Min Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredMedications.map((medication) => (
-            <tr key={medication.medicationItemid}>
-              <td>{medication.medicationItemid}</td>
-              <td>{medication.type}</td>
-              <td>{medication.name}</td>
-              <td>{formatExpDate(medication.expDate)}</td>
-              <td>{medication.receivedIssuedStatus}</td>
-              <td>{medication.quantity}</td>
-              <td>{formatLastUpdatedDate(medication.lastUpdatedDate)}</td>
-              <td>{medication.balance}</td>
-              <td>
+          {sortedMedications.map((medication) => (
+            <tr 
+              key={medication.medicationItemid} 
+              className={medication.balance <= medication.minquantity ? 'low-quantity' : ''}
+            >
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.medicationItemid}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.type}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.name}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{formatExpDate(medication.expDate)}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.receivedIssuedStatus}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.quantity}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{formatLastUpdatedDate(medication.lastUpdatedDate)}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.balance}</td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>{medication.minquantity}<br/>
+              <Button
+                  variant='primary'
+                  onClick={() => handleEditMinQuantity(medication)}
+                  className='me-2 rounded-3 mt-3'
+                >
+                  Edit
+                </Button></td>
+              <td
+              style={{
+                backgroundColor:
+                  medication.balance <= medication.minquantity ? '#BCD2E8'
+                          : '',
+              }}>
                 <Button
                   variant='primary'
                   onClick={() => handleEdit(medication)}
-                  className='me-2 rounded-3'
+                  className='me-2 rounded-3 mb-3'
                 >
-                  
                   Update
                 </Button>
                 <Button variant='danger' onClick={() => handleDelete(medication.medicationItemid)} className='rounded-3'>
@@ -206,9 +309,10 @@ const MedicationItems = ({ doctorId }) => {
 
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Medication</Modal.Title>
+          <Modal.Title>Update Medication</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {errorMessage && <Alert variant='danger'>{errorMessage}</Alert>}
           <Form onSubmit={handleEditFormSubmit}>
             <Form.Group controlId='type'>
               <Form.Label>Type</Form.Label>
@@ -271,6 +375,29 @@ const MedicationItems = ({ doctorId }) => {
             </Form.Group>
             <Button variant='success' type='submit' className='mt-3 rounded-3'>
               Update the medication item
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showEditMinQuantityModal} onHide={() => setShowEditMinQuantityModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Min Quantity</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleMinQuantitySubmit}>
+            <Form.Group controlId='minquantity'>
+              <Form.Label>New Min Quantity</Form.Label>
+              <Form.Control
+                type='number'
+                name='minquantity'
+                value={editMinQuantity}
+                onChange={handleMinQuantityChange}
+                min={1}
+              />
+            </Form.Group>
+            <Button variant='success' type='submit' className='mt-3 rounded-3'>
+              Update Min Quantity
             </Button>
           </Form>
         </Modal.Body>

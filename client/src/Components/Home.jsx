@@ -86,6 +86,21 @@ const Home = () => {
         </Col>
       </Row>
 
+      <Row>
+        <Col>
+          <Card className="shadow-sm border-23 border-primary">
+            <Card.Body>
+              <h4 className="card-title"><strong>Appointments per Month</strong></h4>
+              <div className="chart-container mt-3" style={{ width: '60%', height: '300px' }}>
+                <Bar data={chartData} options={{ maintainAspectRatio: false }} />
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+
+      <br/>
+
       <Row className="mb-4">
         <Col>
           <Card className="shadow-sm border-23 border-dark">
@@ -113,19 +128,6 @@ const Home = () => {
                   ))}
                 </tbody>
               </Table>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <Card className="shadow-sm border-23 border-primary">
-            <Card.Body>
-              <h4 className="card-title"><strong>Appointments per Month</strong></h4>
-              <div className="chart-container mt-3" style={{ width: '60%', height: '300px' }}>
-                <Bar data={chartData} options={{ maintainAspectRatio: false }} />
-              </div>
             </Card.Body>
           </Card>
         </Col>

@@ -10,7 +10,8 @@ const AddMedicationItems = () => {
     serialNo: '',
     receivedIssuedStatus: '',
     quantity: '',
-    balance: ''
+    balance: '',
+    minquantity: ''
   });
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -67,7 +68,8 @@ const AddMedicationItems = () => {
         serialNo: '',
         receivedIssuedStatus: '',
         quantity: '',
-        balance: ''
+        balance: '',
+        minquantity: ''
       });
       setErrorMessage('');
     })
@@ -108,7 +110,6 @@ const AddMedicationItems = () => {
             <select name='receivedIssuedStatus' id='receivedIssuedStatus' className='form-select' value={formData.receivedIssuedStatus} onChange={handleChange}>
               <option value=''>Select Status</option>
               <option value='Received'>Received</option>
-              <option value='Issued'>Issued</option>
             </select>
           </div>
           <div className='col-12'>
@@ -136,6 +137,10 @@ const AddMedicationItems = () => {
               value={formData.balance}
               readOnly
             />
+          </div>
+          <div className='col-12'>
+            <label htmlFor='minquantity' className='form-label'>Min Quantity</label>
+            <input type='number' name='minquantity' className='form-control' id='minquantity' placeholder='Enter Min quantity' value={formData.minquantity} onChange={handleChange} min='1' required />
           </div>
           <div className='mt-4'>
           <div className='col-12'>

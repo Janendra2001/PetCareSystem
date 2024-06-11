@@ -64,7 +64,7 @@ router.post('/check-medicine', (req, res) => {
   });
 // API endpoint to add medication item
 router.post('/medicationitems', (req, res) => {
-    const { type, name, expDate, receivedIssuedStatus, quantity } = req.body;
+    const { type, name, expDate, receivedIssuedStatus, quantity, minquantity } = req.body;
   
     // Fetch the existing balance for the medication item
     const fetchQuery = 'SELECT balance FROM medicationitems WHERE name = ? LIMIT 1';
@@ -84,13 +84,11 @@ router.post('/medicationitems', (req, res) => {
   
       if (receivedIssuedStatus === 'Received' && !isNaN(quantityInt)) {
         newBalance = existingBalance + quantityInt;
-      } else if (receivedIssuedStatus === 'Issued' && !isNaN(quantityInt)) {
-        newBalance = existingBalance - quantityInt;
-      }
+      } 
   
       // Insert the new medication item with the updated balance
-      const insertQuery = 'INSERT INTO medicationitems (type, name, expDate, receivedIssuedStatus, quantity, balance) VALUES (?, ?, ?, ?, ?, ?)';
-      db.query(insertQuery, [type, name, expDate, receivedIssuedStatus, quantityInt, newBalance], (err, result) => {
+      const insertQuery = 'INSERT INTO medicationitems (type, name, expDate, receivedIssuedStatus, quantity, balance, minquantity) VALUES (?, ?, ?, ?, ?, ?, ?)';
+      db.query(insertQuery, [type, name, expDate, receivedIssuedStatus, quantityInt, newBalance, minquantity], (err, result) => {
         if (err) {
           return res.status(500).send(err);
         }
@@ -135,7 +133,7 @@ router.delete('/medicationitems/:id', (req, res) => {
 // API endpoint to update a medication item by ID
 router.put('/medicationitems/:id', (req, res) => {
   const { id } = req.params;
-  const { type, name, expDate, receivedIssuedStatus, quantity } = req.body;
+  const { type, name, expDate, receivedIssuedStatus, quantity} = req.body;
 
   const selectQuery = 'SELECT balance FROM medicationitems WHERE medicationItemid = ?';
   db.query(selectQuery, [id], (err, results) => {
@@ -149,6 +147,9 @@ router.put('/medicationitems/:id', (req, res) => {
     if (receivedIssuedStatus === 'Received') {
       newBalance = existingBalance + parseInt(quantity, 10);
     } else if (receivedIssuedStatus === 'Issued') {
+      if (parseInt(quantity, 10) > existingBalance) {
+        return res.status(400).send({ error: 'The existing quantity is not enough for the issued.' });
+      }
       newBalance = existingBalance - parseInt(quantity, 10);
     }
 
@@ -172,6 +173,19 @@ router.put('/medicationitems/:id', (req, res) => {
       }
       res.status(200).send({ message: 'Medication item updated successfully' });
     });
+  });
+});
+// API endpoint to update the min quantity of a medication item by ID
+router.put('/medicationitems/minquantity/:id', (req, res) => {
+  const { id } = req.params;
+  const { minquantity } = req.body;
+
+  const updateQuery = 'UPDATE medicationitems SET minquantity = ? WHERE medicationItemid = ?';
+  db.query(updateQuery, [minquantity, id], (err, result) => {
+    if (err) {
+      return res.status(500).send({ error: 'Database error' });
+    }
+    res.status(200).send({ message: 'Min quantity updated successfully' });
   });
 });
 

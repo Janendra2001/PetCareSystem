@@ -49,7 +49,7 @@ const DoctorDashboard = () => {
                   to={`/doctordashboard/${doctorId}/doctorappointments`}
                   className="d-flex nav-link text-white px-0 align-middle"
                 >
-                  <i className="fs-4 bi-people ms-2"></i>
+                  <i className="fs-4 bi bi-person-vcard ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Appointments</span>
                 </Link>
               </li>
@@ -58,7 +58,7 @@ const DoctorDashboard = () => {
           to={`/doctordashboard/${doctorId}/doctors`}
           className="d-flex nav-link text-white px-0 align-middle" 
           > 
-          <i className="fs-4 bi-columns ms-2"></i> 
+          <i className="fs-4 bi bi-people ms-2"></i> 
           <span className="ms-2 d-none d-sm-inline">Doctors</span> 
           </Link> 
         </li> 
@@ -67,7 +67,7 @@ const DoctorDashboard = () => {
           to={`/doctordashboard/${doctorId}/petowners`}
           className="d-flex nav-link text-white px-0 align-middle" 
           > 
-          <i className="fs-4 bi-columns ms-2"></i> 
+          <i className="fs-4 bi bi-people-fill ms-2"></i> 
           <span className="ms-2 d-none d-sm-inline">Pet Owners</span> 
           </Link> 
         </li> 
@@ -85,7 +85,7 @@ const DoctorDashboard = () => {
                   to={`/doctordashboard/${doctorId}/entercases`}
                   className="d-flex nav-link text-white px-0 align-middle"
                 >
-                  <i className="fs-4 bi-columns ms-2"></i>
+                  <i className="fs-4 bi bi-card-list ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Enter Cases</span>
                 </Link>
               </li>
@@ -94,7 +94,7 @@ const DoctorDashboard = () => {
           to={`/doctordashboard/${doctorId}/medicationitems`}
           className="d-flex nav-link text-white px-0 align-middle" 
           > 
-          <i className="fs-4 bi-columns ms-2"></i> 
+          <i className="fs-4 bi bi-prescription2 ms-2"></i> 
           <span className="ms-2 d-none d-sm-inline">Medication Items</span> 
           </Link> 
         </li> 

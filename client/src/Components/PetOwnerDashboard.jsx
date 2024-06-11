@@ -43,7 +43,7 @@ const PetOwnerDashboard = () => {
             to={`/petownerdashboard/${petownerId}/petownerappointments`} 
             className="d-flex nav-link text-white px-0 align-middle" 
             > 
-            <i className="fs-4 bi-people ms-2"></i> 
+            <i className="fs-4 bi bi-person-vcard ms-2"></i> 
             <span className="ms-2 d-none d-sm-inline">Schedule Appointments</span> 
             </Link> 
           </li> 
@@ -52,7 +52,7 @@ const PetOwnerDashboard = () => {
             to={`/petownerdashboard/${petownerId}/viewdoctors`}  
             className="d-flex nav-link text-white px-0 align-middle" 
             > 
-            <i className="fs-4 bi-columns ms-2"></i> 
+            <i className="fs-4 bi bi-people ms-2"></i> 
             <span className="ms-2 d-none d-sm-inline">View Doctors</span> 
             </Link> 
           </li> 
@@ -70,7 +70,7 @@ const PetOwnerDashboard = () => {
             to={`/petownerdashboard/${petownerId}/checkmediactionitems`} 
             className="d-flex nav-link text-white px-0 align-middle" 
             > 
-            <i className="fs-4 bi-columns ms-2"></i> 
+            <i className="fs-4 bi bi-prescription2 ms-2"></i> 
             <span className="ms-2 d-none d-sm-inline">Check Medication Items</span> 
             </Link> 
           </li> 
