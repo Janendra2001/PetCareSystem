@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import Select from 'react-select';
 
 const AddPet = () => {
   const { petownerId } = useParams();
@@ -49,6 +50,29 @@ const AddPet = () => {
       setError('Pet already registered.');
     }
   };
+  const breedOptions = [
+    { value: 'Cross breed', label: 'Cross breed' },
+    { value: 'Local', label: 'Local' },
+    { value: 'German Shepherd', label: 'German Shepherd' },
+    { value: 'Rottweiler', label: 'Rottweiler' },
+    { value: 'Golden Retriever', label: 'Golden Retriever' },
+    { value: 'Great Dane', label: 'Great Dane' },
+    { value: 'Cocker Spaniel', label: 'Cocker Spaniel' },
+    { value: 'Boxer', label: 'Boxer' },
+    { value: 'Doberman Pinscher', label: 'Doberman Pinscher' },
+    { value: 'Beagle', label: 'Beagle' },
+    { value: 'Dalmation', label: 'Dalmation' },
+    { value: 'Labrador Retriever', label: 'Labrador Retriever' },
+    { value: 'Poodle', label: 'Poodle' },
+    { value: 'Pomeranian', label: 'Pomeranian' },
+    { value: 'Rhodesian Ridgeback', label: 'Rhodesian Ridgeback' },
+    { value: 'Japanese Spitz', label: 'Japanese Spitz' },
+    { value: 'Persian', label: 'Persian' }
+  ];
+  const handleBreedChange = (selectedOption) => {
+    setValues({ ...values, breed: selectedOption ? selectedOption.value : '' });
+  };
+
 
   return (
     <div className='px-5 mt-3'>
@@ -85,16 +109,30 @@ const AddPet = () => {
         </div>
         <div className='mb-3'>
           <label htmlFor="species"><strong>Species</strong></label>
-          <input type="text" id="species" name="species" value={values.species}
+            <select id="species" name="species" value={values.species}
             onChange={(e) => setValues({ ...values, species: e.target.value })}
-            className='form-control' required />
+            className='form-control' required>
+            <option value="">Select species</option>
+            <option value="Canine">Canine</option>
+            <option value="Feline">Feline</option>
+            <option value="Other">Other</option>
+            </select>
         </div>
+
         <div className='mb-3'>
-          <label htmlFor="breed"><strong>Breed</strong></label>
-          <input type="text" id="breed" name="breed" value={values.breed}
-            onChange={(e) => setValues({ ...values, breed: e.target.value })}
-            className='form-control' required />
-        </div>
+      <label htmlFor="breed"><strong>Breed</strong></label>
+      <Select
+        id="breed"
+        name="breed"
+        value={breedOptions.find(option => option.value === values.breed)}
+        onChange={handleBreedChange}
+        options={breedOptions}
+        className='form-control'
+        isClearable
+        isSearchable
+        placeholder="Select or type breed"
+      />
+    </div>
         <div className='mb-3'>
           <label htmlFor="photo"><strong>Photo</strong></label>
           <input type="file" id="photo" name="photo"

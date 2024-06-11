@@ -130,7 +130,7 @@ const EditPet = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="species" className="form-label">Species</label>
-          <input 
+          <select 
             type="text" 
             className="form-control" 
             id="species" 
@@ -138,7 +138,12 @@ const EditPet = () => {
             value={petDetails.species} 
             onChange={handleChange} 
             required 
-          />
+          >
+            <option value="">Select Species</option>
+            <option value="Canine">Canine</option>
+            <option value="Feline">Feline</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <div className="mb-3">
           <label htmlFor="breed" className="form-label">Breed</label>

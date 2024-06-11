@@ -109,7 +109,7 @@ const PetOwnerAppointments = () => {
             >
               <option value="Treatments">Treatments</option>
               <option value="Vaccination">Vaccination</option>
-              <option value="Surgery(Histerectomy)">Surgery (Histerectomy)</option>
+              <option value="Surgery(Histerectomy)">Surgery (Histerectomy) - only on Saturdays</option>
               <option value="OtherSurgeries">Other Surgeries</option>
             </select>
           </div>

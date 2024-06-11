@@ -41,6 +41,13 @@ const Pets = () => {
     }
   };
 
+  const formatBirthDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
   return (
     <div className='container mt-3'>
       <div className='row mt-4'>
@@ -66,7 +73,7 @@ const Pets = () => {
                   <strong>Species:</strong> {pet.species}<br />
                   <strong>Breed:</strong> {pet.breed}<br />
                   <strong>Sex:</strong> {pet.sex}<br />
-                  <strong>Birth Date:</strong> {pet.birthDate}
+                  <strong>Birth Date:</strong> {formatBirthDate(pet.birthDate)}
                 </p>
                 <div className='d-grid gap-2 mt-auto'>
                   <Link to={`/petownerdashboard/${petownerId}/pets/${pet.petid}/view`} className='btn btn-outline-primary rounded-3'>View</Link>
