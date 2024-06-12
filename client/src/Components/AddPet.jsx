@@ -113,8 +113,8 @@ const AddPet = () => {
             onChange={(e) => setValues({ ...values, species: e.target.value })}
             className='form-control' required>
             <option value="">Select species</option>
-            <option value="Canine">Canine</option>
-            <option value="Feline">Feline</option>
+            <option value="Canine">Dog (Canine)</option>
+            <option value="Feline">Cat (Feline)</option>
             <option value="Other">Other</option>
             </select>
         </div>
