@@ -80,6 +80,7 @@ const PetCasesRegister = () => {
             <th>Case Date</th>
             <th>Diagnosis</th>
             <th>Case Type</th>
+            <th>Weight (Kg)</th>
             <th>Treatment</th>
             <th>Prescription</th>
             <th>Remarks</th>
@@ -92,6 +93,7 @@ const PetCasesRegister = () => {
               <td>{formatCaseDate(c.caseDate)}</td>
               <td>{c.diagnosis}</td>
               <td>{c.caseType}</td>
+              <td>{c.weight}</td>
               <td>{c.treatment}</td>
               <td>{c.prescription}</td>
               <td>{c.remarks}</td>

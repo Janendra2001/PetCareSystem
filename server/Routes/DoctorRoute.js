@@ -197,15 +197,17 @@ router.get('/appointment/:contactNo', async (req, res) => {
 
 // Enter a new case for a pet
 router.post('/entercase', async (req, res) => {
-  const { petId, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate } = req.body;
+  const { petId, diagnosis, caseType, weight, treatment, prescription, remarks, nextVaccinationDate } = req.body;
   try {
+    console.log('Inserting case with data:', { petId, diagnosis, caseType, weight, treatment, prescription, remarks, nextVaccinationDate });
     await db.query(
-      'INSERT INTO pet_case_histories (petid, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-      [petId, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate || null, 'NotFinished']
+      'INSERT INTO pet_case_histories (petid, diagnosis, caseType, weight, treatment, prescription, remarks, nextVaccinationDate, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [petId, diagnosis, caseType, weight, treatment, prescription, remarks, nextVaccinationDate || null, 'NotFinished']
     );
     await db.query('UPDATE appointment SET Status = "Completed" WHERE petid = ? AND Status = "InProgress"', [petId]);
     res.json({ message: 'Case entered successfully' });
   } catch (error) {
+    console.error('Database error:', error);
     res.status(500).json({ message: 'Database error', error });
   }
 });

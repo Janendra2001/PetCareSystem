@@ -286,6 +286,36 @@ router.get('/:petownerId/pets/:petId/cases', async (req, res) => {
     res.status(500).json({ message: 'Database error', error });
   }
 });
+
+
+
+
+
+
+
+// New route to fetch pet owner and pet details for the report
+router.get('/:petownerId/pets/:petId/reportdetails', async (req, res) => {
+  const { petownerId, petId } = req.params;
+  try {
+    const [petOwnerDetails] = await db.query('SELECT id, username FROM petowners WHERE id = ?', [petownerId]);
+    const [petDetails] = await db.query('SELECT * FROM pet WHERE petid = ?', [petId]);
+    const [vaccineCases] = await db.query('SELECT treatment, caseDate, weight FROM pet_case_histories WHERE petid = ? AND caseType = "vaccine"', [petId]);
+
+    if (!petOwnerDetails.length || !petDetails.length) {
+      return res.status(404).json({ message: 'Details not found for the provided pet owner or pet.' });
+    }
+
+    res.json({
+      petOwner: petOwnerDetails[0],
+      pet: petDetails[0],
+      vaccineCases,
+    });
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ message: 'Database error', error });
+  }
+});
+
 //PetOwnerAppointment.jsx --------------------------------------------------------------------------------------------------------------
 
 

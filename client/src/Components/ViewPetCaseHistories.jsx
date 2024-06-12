@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Table, Form } from 'react-bootstrap';
+import { Table, Form, Modal, Button } from 'react-bootstrap';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const ViewPetCaseHistories = () => {
   const { petownerId, petId } = useParams();
@@ -9,6 +11,8 @@ const ViewPetCaseHistories = () => {
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showReport, setShowReport] = useState(false);
+  const [reportDetails, setReportDetails] = useState(null);
 
   useEffect(() => {
     const fetchCases = async () => {
@@ -56,6 +60,40 @@ const ViewPetCaseHistories = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  const fetchReportDetails = async () => {
+    try {
+      const url = `http://localhost:3000/petowner/${petownerId}/pets/${petId}/reportdetails`;
+      console.log(`Fetching report details from URL: ${url}`);
+      const response = await axios.get(url);
+      console.log('Fetched report details:', response.data);
+      setReportDetails(response.data);
+      setShowReport(true);
+    } catch (error) {
+      console.error('Error fetching report details:', error);
+    }
+  };
+
+  const generatePDF = () => {
+    const input = document.getElementById('reportContent');
+    html2canvas(input)
+      .then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save("vaccination_report.pdf");
+      });
+  };
+
+
+  const formatBirthDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className='container mt-3'>
       <div className='text-left mt-3'>
@@ -69,12 +107,14 @@ const ViewPetCaseHistories = () => {
         onChange={handleSearch}
         className='mb-3'
       />
+      <Button variant='success' className='mb-3' onClick={fetchReportDetails}>Generate Vaccination Report</Button>
       <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Case Date</th>
             <th>Diagnosis</th>
             <th>Case Type</th>
+            <th>Weight (Kg)</th>
             <th>Treatment</th>
             <th>Prescription</th>
             <th>Remarks</th>
@@ -87,6 +127,7 @@ const ViewPetCaseHistories = () => {
               <td>{formatCaseDate(c.caseDate)}</td>
               <td>{c.diagnosis}</td>
               <td>{c.caseType}</td>
+              <td>{c.weight}</td>
               <td>{c.treatment}</td>
               <td>{c.prescription}</td>
               <td>{c.remarks}</td>
@@ -95,9 +136,66 @@ const ViewPetCaseHistories = () => {
           ))}
         </tbody>
       </Table>
+
+      <Modal show={showReport} onHide={() => setShowReport(false)} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>Vaccination Report</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {reportDetails && (
+            <div id="reportContent">
+              <h4>Vaccination Report</h4>
+              <h5>Pet Animal Clinic</h5>
+              <h6>Royal Pet Care, Matale Junction, Anuradhapura</h6>
+              <hr className='bg-dark'/>
+              <div className="d-flex justify-content-between">
+                <div>
+                  <p>Pet Owner ID: {reportDetails.petOwner.id}</p>
+                  <p>Pet Owner Name: {reportDetails.petOwner.username}</p>
+                  <p>PetID: {reportDetails.pet.petid}</p>
+                  <p>PetName: {reportDetails.pet.petName}</p>
+                  <p>Date of Birth: {formatBirthDate(reportDetails.pet.birthDate)}</p>
+                  <p>Species: {reportDetails.pet.species}</p>
+                  <p>Breed: {reportDetails.pet.breed}</p>
+                </div>
+                <div>
+                  <p>Contact: 0711235431</p>
+                  <p>Report Issued Date: {new Date().toLocaleDateString()}</p>
+                </div>
+              </div>
+              <Table striped bordered hover responsive>
+                <thead>
+                  <tr>
+                    <th>Vaccine Name</th>
+                    <th>Weight(Kg)</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportDetails.vaccineCases.map((c, index) => (
+                    <tr key={index}>
+                      <td>{c.treatment}</td>
+                      <td>{c.weight}</td>
+                      <td>{new Date(c.caseDate).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <p>Veterinarian Signature: _________________________________ Date: ___________</p>
+              <hr className='bg-dark'/>
+              <p>Thank you for visiting our clinic</p>
+              <p>For inquiries, call us at 0711235431</p>
+              <p></p>
+            </div>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowReport(false)}>Close</Button>
+          <Button variant="primary" onClick={generatePDF}>Download PDF</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
 export default ViewPetCaseHistories;
-

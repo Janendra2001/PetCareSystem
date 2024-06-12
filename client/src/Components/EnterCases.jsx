@@ -9,6 +9,7 @@ const EnterCases = () => {
   const [caseData, setCaseData] = useState({
     diagnosis: '',
     caseType: 'treatment',
+    weight: '',
     treatment: '',
     prescription: '',
     remarks: '',
@@ -75,6 +76,7 @@ const EnterCases = () => {
       setCaseData({
         diagnosis: '',
         caseType: 'treatment',
+        weight: '',
         treatment: '',
         prescription: '',
         remarks: '',
@@ -86,6 +88,26 @@ const EnterCases = () => {
       setError('Error entering case');
       setMessage(null);
     }
+  };
+
+
+  const formatBirthDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const formatRegisteredDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
   return (
@@ -137,6 +159,16 @@ const EnterCases = () => {
               </Form.Control>
             </Form.Group>
             <Form.Group className='mb-3'>
+              <Form.Label>Weight (Kg)</Form.Label>
+              <Form.Control
+                type='number'
+                step='0.01'
+                name='weight'
+                value={caseData.weight}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group className='mb-3'>
               <Form.Label>Treatment</Form.Label>
               <Form.Control
                 as='textarea'
@@ -185,11 +217,11 @@ const EnterCases = () => {
                 <Card.Text>
                   <strong>ID : </strong> {petDetails.petid}<br />
                   <strong>Name : </strong> {petDetails.name}<br />
-                  <strong>Birth Date : </strong> {petDetails.birthDate}<br />
+                  <strong>Birth Date : </strong> {formatBirthDate(petDetails.birthDate)}<br />
                   <strong>Sex : </strong> {petDetails.sex}<br />
                   <strong>Species : </strong> {petDetails.species}<br />
                   <strong>Breed : </strong> {petDetails.breed}<br />
-                  <strong>Registered Date : </strong> {petDetails.registeredDate}<br />
+                  <strong>Registered Date : </strong> {formatRegisteredDate(petDetails.registeredDate)}<br />
                   <strong>Pet Owner ID : </strong> {petDetails.petOwnerid}<br />
                 </Card.Text>
               </Card.Body>
