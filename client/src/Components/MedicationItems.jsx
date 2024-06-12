@@ -6,6 +6,7 @@ import axios from 'axios';
 const MedicationItems = ({ doctorId }) => {
   const [medications, setMedications] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [petCases, setPetCases] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showEditMinQuantityModal, setShowEditMinQuantityModal] = useState(false);
@@ -28,6 +29,7 @@ const MedicationItems = ({ doctorId }) => {
 
   useEffect(() => {
     fetchMedications();
+    fetchPetCases();
   }, []);
 
   const fetchMedications = async () => {
@@ -36,6 +38,15 @@ const MedicationItems = ({ doctorId }) => {
       setMedications(response.data);
     } catch (error) {
       console.error('Error fetching medications:', error);
+    }
+  };
+
+  const fetchPetCases = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/auth/petcases/notfinished');
+      setPetCases(response.data);
+    } catch (error) {
+      console.error('Error fetching pet cases:', error);
     }
   };
 
@@ -129,6 +140,15 @@ const MedicationItems = ({ doctorId }) => {
     }
   };
 
+  const handleFinishCase = async (caseId) => {
+    try {
+      await axios.put(`http://localhost:3000/auth/petcases/finish/${caseId}`);
+      fetchPetCases();
+    } catch (error) {
+      console.error('Error finishing pet case:', error);
+    }
+  };
+
   const formatExpDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -188,6 +208,40 @@ const MedicationItems = ({ doctorId }) => {
       <Link to={linkPath} className='btn btn-success rounded-3 mb-3'>
         Add Medication Item
       </Link>
+      <h3 className='mt-5 text-center'>Not Finished Pet Cases</h3>
+      <Table striped bordered hover responsive className='mt-3'>
+        <thead>
+          <tr>
+            <th>Case ID</th>
+            <th>Case Date</th>
+            <th>Diagnosis</th>
+            <th>Case Type</th>
+            <th>Treatment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {petCases.map((petCase) => (
+            <tr key={petCase.caseid}>
+              <td>{petCase.caseid}</td>
+              <td>{formatExpDate(petCase.caseDate)}</td>
+              <td>{petCase.diagnosis}</td>
+              <td>{petCase.caseType}</td>
+              <td>{petCase.treatment}</td>
+              <td>
+                <Button
+                  variant='primary'
+                  onClick={() => handleFinishCase(petCase.caseid)}
+                  className='rounded-3'
+                >
+                  Finish
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <h3 className='mt-5 text-center'>Stock Items</h3>
       <Table striped bordered hover responsive>
         <thead>
           <tr>

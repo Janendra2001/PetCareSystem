@@ -200,8 +200,8 @@ router.post('/entercase', async (req, res) => {
   const { petId, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate } = req.body;
   try {
     await db.query(
-      'INSERT INTO pet_case_histories (petid, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [petId, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate || null]
+      'INSERT INTO pet_case_histories (petid, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate, Status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [petId, diagnosis, caseType, treatment, prescription, remarks, nextVaccinationDate || null, 'NotFinished']
     );
     await db.query('UPDATE appointment SET Status = "Completed" WHERE petid = ? AND Status = "InProgress"', [petId]);
     res.json({ message: 'Case entered successfully' });

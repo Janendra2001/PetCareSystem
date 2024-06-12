@@ -96,6 +96,29 @@ router.post('/medicationitems', (req, res) => {
       });
     });
   });
+
+  // API endpoint to fetch "NotFinished" pet cases
+router.get('/petcases/notfinished', (req, res) => {
+  const query = 'SELECT * FROM pet_case_histories WHERE Status = "NotFinished"';
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.status(200).json(results);
+  });
+});
+
+// API endpoint to update a pet case status to "Finished"
+router.put('/petcases/finish/:caseid', (req, res) => {
+  const caseId = req.params.caseid;
+  const query = 'UPDATE pet_case_histories SET Status = "Finished" WHERE caseid = ?';
+  db.query(query, [caseId], (err, result) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.status(200).send({ message: 'Case marked as Finished' });
+  });
+});
  // API endpoint to get all medication items
 router.get('/medicationitems', (req, res) => {
   const query = 'SELECT * FROM medicationitems';
