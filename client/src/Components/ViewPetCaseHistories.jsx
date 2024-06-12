@@ -85,7 +85,6 @@ const ViewPetCaseHistories = () => {
       });
   };
 
-
   const formatBirthDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -107,7 +106,9 @@ const ViewPetCaseHistories = () => {
         onChange={handleSearch}
         className='mb-3'
       />
-      <Button variant='success' className='mb-3' onClick={fetchReportDetails}>Generate Vaccination Report</Button>
+      <div className='d-flex justify-content-end mb-3'>
+      <Button variant='success' className='mb-3 rounded-3' onClick={fetchReportDetails}>Generate Vaccination Report</Button>
+      </div>
       <Table striped bordered hover responsive>
         <thead>
           <tr>
@@ -143,31 +144,32 @@ const ViewPetCaseHistories = () => {
         </Modal.Header>
         <Modal.Body>
           {reportDetails && (
-            <div id="reportContent">
-              <h4>Vaccination Report</h4>
-              <h5>Pet Animal Clinic</h5>
-              <h6>Royal Pet Care, Matale Junction, Anuradhapura</h6>
+            <div id="reportContent" className="p-3">
+              <h4 className="text-center">Vaccination Report</h4>
+              <h5 className="text-center">Pet Animal Clinic</h5>
+              <h6 className="text-center">Royal Pet Care, Matale Junction, Anuradhapura</h6>
               <hr className='bg-dark'/>
-              <div className="d-flex justify-content-between">
+              <div className="d-flex justify-content-between mb-4">
                 <div>
-                  <p>Pet Owner ID: {reportDetails.petOwner.id}</p>
-                  <p>Pet Owner Name: {reportDetails.petOwner.username}</p>
-                  <p>PetID: {reportDetails.pet.petid}</p>
-                  <p>PetName: {reportDetails.pet.petName}</p>
-                  <p>Date of Birth: {formatBirthDate(reportDetails.pet.birthDate)}</p>
-                  <p>Species: {reportDetails.pet.species}</p>
-                  <p>Breed: {reportDetails.pet.breed}</p>
+                  <p><strong>Pet Owner ID:</strong> {reportDetails.petOwner.id}</p>
+                  <p><strong>Pet Owner Name:</strong> {reportDetails.petOwner.username}</p>
+                  <p><strong>PetID:</strong> {reportDetails.pet.petid}</p>
+                  <p><strong>PetName:</strong> {reportDetails.pet.petName}</p>
+                  <p><strong>Date of Birth:</strong> {formatBirthDate(reportDetails.pet.birthDate)}</p>
+                  <p><strong>Species:</strong> {reportDetails.pet.species}</p>
+                  <p><strong>Breed:</strong> {reportDetails.pet.breed}</p>
                 </div>
                 <div>
-                  <p>Contact: 0711235431</p>
-                  <p>Report Issued Date: {new Date().toLocaleDateString()}</p>
+                  <p><strong><u>Clinic Details</u></strong></p>
+                  <p><strong>Contact:</strong> 0711235431</p>
+                  <p><strong>Report Issued Date:</strong> {new Date().toLocaleDateString()}</p>
                 </div>
               </div>
               <Table striped bordered hover responsive>
                 <thead>
                   <tr>
                     <th>Vaccine Name</th>
-                    <th>Weight(Kg)</th>
+                    <th>Weight (Kg)</th>
                     <th>Date</th>
                   </tr>
                 </thead>
@@ -181,17 +183,18 @@ const ViewPetCaseHistories = () => {
                   ))}
                 </tbody>
               </Table>
-              <p>Veterinarian Signature: _________________________________ Date: ___________</p>
+              <div className="mt-4 d-flex justify-content-between">
+              <p><strong>Veterinarian Signature:</strong> _________________________________ </p>
+              <p><strong>Date: ___________</strong></p>
+              </div>
               <hr className='bg-dark'/>
-              <p>Thank you for visiting our clinic</p>
-              <p>For inquiries, call us at 0711235431</p>
-              <p></p>
+              <p className="text-center">Thank you for visiting our clinic</p>
             </div>
           )}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowReport(false)}>Close</Button>
-          <Button variant="primary" onClick={generatePDF}>Download PDF</Button>
+          <Button variant="secondary" onClick={() => setShowReport(false)} className='rounded-3'>Close</Button>
+          <Button variant="primary" onClick={generatePDF}className='rounded-3'>Download PDF</Button>
         </Modal.Footer>
       </Modal>
     </div>
