@@ -234,6 +234,7 @@ const MedicationItems = ({ doctorId }) => {
               style={{
                 backgroundColor:
                 medication.balance === 0 ? '#ee6b6e':
+                new Date(medication.expDate) < new Date() ? '#ffcccb' :
                   medication.balance <= medication.minquantity ? '#BCD2E8'
                           : '',
               }}>{formatExpDate(medication.expDate)}</td>
@@ -370,7 +371,7 @@ const MedicationItems = ({ doctorId }) => {
                 name='quantity'
                 value={editFormData.quantity}
                 onChange={handleEditFormChange}
-                min={1}
+                min={0}
               />
             </Form.Group>
             <Form.Group controlId='balance'>

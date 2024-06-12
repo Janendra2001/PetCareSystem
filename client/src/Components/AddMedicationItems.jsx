@@ -103,7 +103,7 @@ const AddMedicationItems = () => {
           </div>
           <div className='col-12'>
             <label htmlFor='expDate' className='form-label'>Expiration Date</label>
-            <input type='date' name='expDate' className='form-control' id='expDate' value={formData.expDate} onChange={handleChange} required />
+            <input type='date' name='expDate' className='form-control' id='expDate' value={formData.expDate} onChange={handleChange}  />
           </div>
           <div className='col-12'>
             <label htmlFor='receivedIssuedStatus' className='form-label'>Status</label>

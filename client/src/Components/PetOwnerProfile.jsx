@@ -126,6 +126,8 @@ const PetOwnerProfile = () => {
   return (
     <div className='container mt-3'>
       <h3 className='text-start mb-4'>Welcome {petowners.fname} {petowners.lname}</h3>
+      {error.general && <Alert variant='danger'>{error.general}</Alert>}
+      {message && <Alert variant='success'>{message}</Alert>}
       <Row className="justify-content-md-center">
         <Col md={6}>
           <Row className="justify-content-md-center">
@@ -146,12 +148,11 @@ const PetOwnerProfile = () => {
             </Col>
           </Row>
           <Form onSubmit={handleProfileUpdate}>
-          <Form.Group className='mb-3'>
+            <Form.Group className='mb-3'>
               <Form.Label>Your Registered ID</Form.Label>
               <Form.Control
                 type='text'
                 value={petowners.id || ''}
-                onChange={(e) => setPetOwner({ ...petowners, fname: e.target.value })}
                 readOnly
               />
             </Form.Group>
@@ -195,14 +196,11 @@ const PetOwnerProfile = () => {
                 {error.contact}
               </Form.Control.Feedback>
             </Form.Group>
-            
             <Button type='submit' variant='success' className='rounded-3'>Update Profile</Button>
           </Form>
-          <div>
-            <br/>
-          </div>
-          {error.general && <Alert variant='danger'>{error.general}</Alert>}
-          {message && <Alert variant='success'>{message}</Alert>}
+        </Col>
+        <Col md={6}>
+        <br/><br/><br/>
           <Form className='mt-4' onSubmit={handlePasswordUpdate}>
             <h5>Update Password</h5>
             <Form.Group className='mb-3'>

@@ -64,7 +64,7 @@ router.post('/check-medicine', (req, res) => {
   });
 // API endpoint to add medication item
 router.post('/medicationitems', (req, res) => {
-    const { type, name, expDate, receivedIssuedStatus, quantity, minquantity } = req.body;
+    const { type, name, expDate , receivedIssuedStatus, quantity, minquantity } = req.body;
   
     // Fetch the existing balance for the medication item
     const fetchQuery = 'SELECT balance FROM medicationitems WHERE name = ? LIMIT 1';
@@ -88,7 +88,7 @@ router.post('/medicationitems', (req, res) => {
   
       // Insert the new medication item with the updated balance
       const insertQuery = 'INSERT INTO medicationitems (type, name, expDate, receivedIssuedStatus, quantity, balance, minquantity) VALUES (?, ?, ?, ?, ?, ?, ?)';
-      db.query(insertQuery, [type, name, expDate, receivedIssuedStatus, quantityInt, newBalance, minquantity], (err, result) => {
+      db.query(insertQuery, [type, name, expDate , receivedIssuedStatus, quantityInt, newBalance, minquantity], (err, result) => {
         if (err) {
           return res.status(500).send(err);
         }
@@ -416,4 +416,41 @@ router.get('/logout', (req, res) => {
     res.clearCookie('token');
     return res.json({ Status: true });
   });
+
+//Profile.jsx -----------------------------------------------------------------------------------------------------------------
+// Fetch admin profile
+router.get('/getprofile', (req, res) => {
+  db.query('SELECT * FROM admin WHERE ID = 1',  (err, result) => {
+    if (err) throw err;
+    res.send(result[0]);
+  });
+});
+
+// Update admin profile
+router.put('/updateprofile', (req, res) => {
+  const { UserName, FirstName, LastName, email, ContactNo } = req.body;
+  db.query(
+    'UPDATE admin SET UserName = ?, FirstName = ?, LastName = ?, email = ?, ContactNo = ? WHERE ID = 1',
+    [UserName, FirstName, LastName, email, ContactNo],
+    (err, result) => {
+      if (err) throw err;
+      res.send({ message: 'Profile updated successfully!' });
+    }
+  );
+});
+
+// Update admin password
+router.put('/password', (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  db.query('SELECT password FROM admin WHERE ID = 1', (err, result) => {
+    if (err) throw err;
+    if (result[0].password !== currentPassword) {
+      return res.status(400).send({ message: 'Current password is incorrect.' });
+    }
+    db.query('UPDATE admin SET password = ? WHERE ID = 1', [newPassword], (err, result) => {
+      if (err) throw err;
+      res.send({ message: 'Password updated successfully!' });
+    });
+  });
+});
 export {router as adminRouter} 
