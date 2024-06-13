@@ -62,7 +62,7 @@ const Appointments = () => {
                   <th>AppointmentID</th>
                   <th>PetID</th>
                   <th>AppointmentType</th>
-                  <th>OtherSurgery</th>
+                  <th>Other</th>
                   <th>Contact No</th>
                   <th>AppointmentDate</th>
                   <th>SlotNo</th>
@@ -111,7 +111,7 @@ const Appointments = () => {
               <th>AppointmentID</th>
               <th>PetID</th>
               <th>AppointmentType</th>
-              <th>OtherSurgery</th>
+              <th>Other</th>
               <th>Contact No</th>
               <th>AppointmentDate</th>
               <th>SlotNo</th>

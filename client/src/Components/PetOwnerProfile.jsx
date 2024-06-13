@@ -80,7 +80,7 @@ const PetOwnerProfile = () => {
       setMessage(response.data.message);
     } catch (error) {
       console.error('Error updating profile:', error);
-      setError((prevError) => ({ ...prevError, general: 'An error occurred while updating profile.' }));
+      setError((prevError) => ({ ...prevError, general: 'The email address already registered.' }));
     }
   };
 

@@ -106,7 +106,7 @@ router.get('/send-vaccination-reminders', async (req, res) => {
             <li>Next Vaccination Date: ${nextVaccinationDate}</li>
           </ul>
           <p>Please ensure your pet's vaccinations are up-to-date.</p>
-          <p>Regards,<br>Your Pet Care Team</p>
+          <p>Regards,<br>Royal Pet Care</p>
         `;
 
         await sendEmail(email, subject, html);

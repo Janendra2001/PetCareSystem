@@ -131,6 +131,7 @@ const AddPet = () => {
         isClearable
         isSearchable
         placeholder="Select or type breed"
+        required
       />
     </div>
         <div className='mb-3'>

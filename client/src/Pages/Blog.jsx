@@ -54,13 +54,7 @@ const Blog = () => {
         ) : (
           <>
             <div className="text-center mb-5">
-              <h1 className="display-4">The Dog Blog</h1>
-              <p>
-                This blog is powered by{' '}
-                <a href="https://thedogapi.com/" className="text-primary">
-                  The Dog API
-                </a>
-              </p>
+              <h3 className="display-4" style={{ fontSize: '1.5rem' }}><b>The Dog Blog</b></h3>
               <form
                 className="max-w-xl mx-auto"
                 autoComplete="off"

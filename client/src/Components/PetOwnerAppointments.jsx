@@ -91,7 +91,7 @@ const PetOwnerAppointments = () => {
             <select
               multiple
               className="form-control"
-              onChange={(e) => setSelectedPets([...e.target.selectedOptions].map(option => option.value))}
+              onChange={(e) => setSelectedPets([...e.target.selectedOptions].map(option => option.value))} required
             >
               {pets.map(pet => (
                 <option key={pet.petid} value={pet.petid}>
@@ -105,17 +105,17 @@ const PetOwnerAppointments = () => {
             <select
               className="form-control"
               value={appointmentType}
-              onChange={(e) => setAppointmentType(e.target.value)}
+              onChange={(e) => setAppointmentType(e.target.value)} required
             >
               <option value="Treatments">Treatments</option>
               <option value="Vaccination">Vaccination</option>
               <option value="Surgery(Histerectomy)">Surgery (Histerectomy) - only on Saturdays</option>
-              <option value="OtherSurgeries">Other Surgeries</option>
+              <option value="OtherSurgeries">Other</option>
             </select>
           </div>
           {appointmentType === 'OtherSurgeries' && (
             <div className="form-group">
-              <label>Specify Surgery</label>
+              <label>Specify</label>
               <input
                 type="text"
                 className="form-control"
@@ -131,7 +131,7 @@ const PetOwnerAppointments = () => {
               className="form-control"
               value={contactNo}
               onChange={(e) => setContactNo(e.target.value)}
-            />
+            required/>
           </div>
           <div className="form-group">
             <label>Appointment Date</label>
@@ -140,7 +140,7 @@ const PetOwnerAppointments = () => {
               className="form-control"
               value={appointmentDate}
               onChange={(e) => setAppointmentDate(e.target.value)}
-            />
+            required/>
           </div>
           {appointmentDate && (
             <div className="form-group">
@@ -149,7 +149,7 @@ const PetOwnerAppointments = () => {
                 className="form-control"
                 value={selectedSlot}
                 onChange={(e) => setSelectedSlot(e.target.value)}
-              >
+              required>
                 {availableSlots.map(SlotNo => (
                   <option key={SlotNo} value={SlotNo}>{SlotNo}</option>
                 ))}
@@ -171,7 +171,7 @@ const PetOwnerAppointments = () => {
               <th>SlotNo</th>
               <th>PetID</th>
               <th>AppointmentType</th>
-              <th>OtherSurgery</th>
+              <th>Other</th>
               <th>Contact No</th>
               <th>Status</th>
               <th>Action</th>

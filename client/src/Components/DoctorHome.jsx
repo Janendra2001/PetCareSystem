@@ -127,7 +127,7 @@ const DoctorHome = () => {
         <Col>
         <Card className="shadow-sm border-3 border-info">
       <Card.Body>
-        <h4 className="card-title"><strong>Disease Distribution</strong></h4>
+        <h4 className="card-title"><strong>Disease Distribution per Year</strong></h4>
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
           <div style={{ width: '60%', height: '300px' }}>
             <Pie data={diseaseDistributionData} options={{ maintainAspectRatio: false, plugins: { legend: { position: 'right' }}}}/>
