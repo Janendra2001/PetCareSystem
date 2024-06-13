@@ -92,7 +92,7 @@ function App() {
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
-          } > 
+          } >
           <Route path='' element={<Home />}></Route> 
           <Route path='/dashboard/appointments' element={<Appointments />}></Route> 
           <Route path='/dashboard/doctors' element={<Doctors />}></Route> 

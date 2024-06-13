@@ -4,25 +4,127 @@ import mysql from 'mysql';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import { promisify } from 'util';
+import nodemailer from 'nodemailer';
 import { verifyUser } from '../verifyUser.js';
 
 dotenv.config();
 
-const router = express.Router() 
+const router = express.Router();
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', 
-    password: '', 
-    database: 'petcaresystem' 
-  });
-  
-  db.connect((err) => {
-    if (err) {
-      throw err;
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'petcaresystem'
+});
+
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('MySQL connected...');
+});
+const query = promisify(db.query).bind(db);
+
+
+
+
+
+setTimeout(() => {
+  console.log('EMAIL_USER:', process.env.EMAIL_USER);
+  console.log('EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD);
+}, 1000);
+
+// Function to send email using nodemailer
+const sendEmail = async (to, subject, html) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
     }
-    console.log('MySQL connected...');
   });
-  const query = promisify(db.query).bind(db);
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: to,
+    subject: subject,
+    html: html
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${to}`);
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+};
+
+// Route to check vaccination dates and send reminders
+router.get('/send-vaccination-reminders', async (req, res) => {
+  try {
+    const today = new Date();
+    const eightAgo = new Date();
+    eightAgo.setDate(today.getDate() + 8);
+    const weekAgo = new Date();
+    weekAgo.setDate(today.getDate() + 7);
+    const sixAgo = new Date();
+    sixAgo.setDate(today.getDate() + 6);
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setDate(today.getDate() + 3);
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(today.getDate() + 1);
+
+    const queryStr = `
+      SELECT pc.*, p.petOwnerid, po.email, p.petName
+      FROM pet_case_histories pc
+      INNER JOIN pet p ON pc.petid = p.petid
+      INNER JOIN petowners po ON p.petOwnerid = po.id
+      WHERE pc.nextVaccinationDate IN (?, ?, ?, ?, ?)
+    `;
+
+    const rows = await query(queryStr, [
+      eightAgo.toISOString().slice(0, 10),
+      weekAgo.toISOString().slice(0, 10),
+      sixAgo.toISOString().slice(0, 10),
+      threeDaysAgo.toISOString().slice(0, 10),
+      oneDayAgo.toISOString().slice(0, 10)
+    ]);
+
+    if (rows.length > 0) {
+      console.log(`Found ${rows.length} records for sending reminders.`);
+      rows.forEach(async (row) => {
+        const { petid, petName, caseDate, remarks, nextVaccinationDate, email } = row;
+        const subject = 'Vaccination Reminder';
+        const html = `
+          <p>Dear Pet Owner,</p>
+          <p>This is a reminder for the vaccination of your pet:</p>
+          <ul>
+            <li>Pet ID: ${petid}</li>
+            <li>Pet Name: ${petName}</li>
+            <li>Last Vaccination Date: ${caseDate}</li>
+            <li>Remarks: ${remarks}</li>
+            <li>Next Vaccination Date: ${nextVaccinationDate}</li>
+          </ul>
+          <p>Please ensure your pet's vaccinations are up-to-date.</p>
+          <p>Regards,<br>Your Pet Care Team</p>
+        `;
+
+        await sendEmail(email, subject, html);
+      });
+    } else {
+      console.log('No records found for sending reminders.');
+    }
+
+    res.status(200).json({ message: 'Vaccination reminders sent successfully' });
+    console.log('Vaccination reminders sent successfully');
+    console.log('EMAIL_USER:', process.env.EMAIL_USER);
+console.log('EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD);
+  } catch (error) {
+    console.error('Error sending vaccination reminders:', error);
+    res.status(500).json({ error: 'Failed to send vaccination reminders' });
+  }
+});
+
 
 router.post('/adminlogin', (req, res) => {
     const sql = "SELECT * FROM admin WHERE email = ? AND password = ?" 
@@ -476,4 +578,4 @@ router.put('/password', (req, res) => {
     });
   });
 });
-export {router as adminRouter} 
+export {router as adminRouter}

@@ -7,6 +7,31 @@ import {petOwnerRouter} from './Routes/PetOwnerRoute.js'
 import path from 'path'
 import { __dirname } from './dirname.js';
 import cookieParser from 'cookie-parser'
+import cron from 'node-cron'
+import axios from 'axios'
+import dotenv from 'dotenv';
+
+
+
+
+dotenv.config();
+
+setTimeout(() => {
+  console.log('EMAIL_USER:', process.env.EMAIL_USER);
+  console.log('EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD);
+}, 1000);
+
+
+// Schedule cron job to send vaccination reminders daily at a specific time
+cron.schedule('38 21 * * *', async () => {
+  try {
+    console.log('Sending vaccination reminders...');
+    await axios.get('http://localhost:3000/auth/send-vaccination-reminders');
+    console.log('Vaccination reminders sent');
+  } catch (error) {
+    console.error('Error sending vaccination reminders:', error);
+  }
+});
 
 const app = express() 
 app.use(cors({ 
@@ -30,4 +55,4 @@ app.use('/petowner', petOwnerRouter);
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000");
-}); 
+});
