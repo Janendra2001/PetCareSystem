@@ -20,6 +20,13 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // Validate first name, last name, and username
+    if (name === 'fname' || name === 'lname') {
+      if (!/^[a-zA-Z]+$/.test(value)) {
+        setError(`${name === 'lname' ? 'lname' : name.charAt(0).toUpperCase() + name.slice(1)} should only contain alphabetic characters`);
+        return;
+      }
+    }
     setFormData({ ...formData, [name]: value });
   };
 
@@ -38,10 +45,11 @@ const Register = () => {
 
 
 
-    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(formData.email)) {
-      setEmailError("Enter a valid email address");
+    if (!/^[a-z0-9]+([._]?[a-z0-9]+)*@[a-z]+([.-]?[a-z0-9]+)*(\.[a-z]{2,3})+$/.test(formData.email)) {
+      setEmailError("Enter a valid email address with lowercase letters only");
       return;
     }
+    
     if (!/^\d{10}$/.test(formData.contact)) {
       setContactError("Enter a valid contact number");
       return;
