@@ -13,6 +13,7 @@ const PetOwnerAppointments = () => {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPets, setSelectedPets] = useState([]);
   const [contactNo, setContactNo] = useState('');
+  const [contactNoError, setContactNoError] = useState('');
   const [appointments, setAppointments] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -40,6 +41,15 @@ const PetOwnerAppointments = () => {
 
   const handleAppointmentRequest = (e) => {
     e.preventDefault();
+
+    // Validate contact number
+    if (!/^\d{10}$/.test(contactNo)) {
+      setContactNoError('Contact number must be 10 digits long and contain only numbers.');
+      return;
+    } else {
+      setContactNoError('');
+    }
+
     const appointmentsToRequest = selectedPets.map(petId => ({
       petid: petId,
       appointmentType,
@@ -132,6 +142,7 @@ const PetOwnerAppointments = () => {
               value={contactNo}
               onChange={(e) => setContactNo(e.target.value)}
             required/>
+            {contactNoError && <small className="text-danger">{contactNoError}</small>}
           </div>
           <div className="form-group">
             <label>Appointment Date</label>

@@ -47,7 +47,7 @@ const EnterCases = () => {
       setError(null);
     } catch (error) {
       console.error('Error fetching pet details:', error.response || error.message);
-      setError('Appointment is not completed please visit the receptionist then complete the appointment.');
+      setError('Appointment is not completed, please visit the receptionist then complete the appointment.');
       setPetDetails(null);
     }
   };
@@ -85,11 +85,19 @@ const EnterCases = () => {
       setPetDetails(null);
     } catch (error) {
       console.error('Error entering case:', error.response || error.message);
-      setError('Error entering case');
+      setError('Enter a valid contact no and other fields');
       setMessage(null);
     }
   };
 
+  const handleContactNoChange = (e) => {
+    const value = e.target.value;
+    const regex = /^[0-9]{0,10}$/;
+
+    if (regex.test(value)) {
+      setContactNo(value);
+    }
+  };
 
   const formatBirthDate = (dateString) => {
     const date = new Date(dateString);
@@ -132,8 +140,9 @@ const EnterCases = () => {
               <Form.Control
                 type='text'
                 value={contactNo}
-                onChange={(e) => setContactNo(e.target.value)}
+                onChange={handleContactNoChange}
                 disabled={!!petId}
+                placeholder='Enter Contact No'
               />
             </Form.Group>
             <Form.Group className='mb-3'>
@@ -143,6 +152,7 @@ const EnterCases = () => {
                 name='diagnosis'
                 value={caseData.diagnosis}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className='mb-3'>
@@ -152,6 +162,7 @@ const EnterCases = () => {
                 name='caseType'
                 value={caseData.caseType}
                 onChange={handleInputChange}
+                required
               >
                 <option value='treatment'>Treatment</option>
                 <option value='surgery'>Surgery</option>
@@ -175,6 +186,7 @@ const EnterCases = () => {
                 name='treatment'
                 value={caseData.treatment}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className='mb-3'>
@@ -215,14 +227,14 @@ const EnterCases = () => {
               <Card.Body>
                 <Card.Title>{petDetails.name}</Card.Title>
                 <Card.Text>
-                  <strong>ID : </strong> {petDetails.petid}<br />
-                  <strong>Name : </strong> {petDetails.name}<br />
-                  <strong>Birth Date : </strong> {formatBirthDate(petDetails.birthDate)}<br />
-                  <strong>Sex : </strong> {petDetails.sex}<br />
-                  <strong>Species : </strong> {petDetails.species}<br />
-                  <strong>Breed : </strong> {petDetails.breed}<br />
-                  <strong>Registered Date : </strong> {formatRegisteredDate(petDetails.registeredDate)}<br />
-                  <strong>Pet Owner ID : </strong> {petDetails.petOwnerid}<br />
+                  <strong>ID: </strong> {petDetails.petid}<br />
+                  <strong>Name: </strong> {petDetails.name}<br />
+                  <strong>Birth Date: </strong> {formatBirthDate(petDetails.birthDate)}<br />
+                  <strong>Sex: </strong> {petDetails.sex}<br />
+                  <strong>Species: </strong> {petDetails.species}<br />
+                  <strong>Breed: </strong> {petDetails.breed}<br />
+                  <strong>Registered Date: </strong> {formatRegisteredDate(petDetails.registeredDate)}<br />
+                  <strong>Pet Owner ID: </strong> {petDetails.petOwnerid}<br />
                 </Card.Text>
               </Card.Body>
             </Card>

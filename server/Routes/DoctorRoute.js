@@ -76,6 +76,35 @@ router.post('/adddoctor', async (req, res) => {
     res.status(500).json({ message: "Database error", error });
   }
 });
+// Doctor Password Update
+router.put('/:doctorId/password', async (req, res) => {
+  const { doctorId } = req.params;
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    // Fetch current doctor's password hash from database
+    const [doctor] = await db.query('SELECT * FROM doctor WHERE id = ?', [doctorId]);
+    if (doctor.length === 0) {
+      return res.status(404).json({ message: 'Doctor not found.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(currentPassword, doctor[0].password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Current password is incorrect.' });
+    }
+
+    // Hash the new password before updating in the database
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the doctor's password
+    await db.query('UPDATE doctor SET password = ? WHERE id = ?', [hashedPassword, doctorId]);
+
+    return res.json({ message: 'Password updated successfully.' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
+});
 
 // Get all doctors
 router.get('/doctors', async (req, res) => {

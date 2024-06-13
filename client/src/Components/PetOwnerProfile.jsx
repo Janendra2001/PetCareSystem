@@ -48,13 +48,18 @@ const PetOwnerProfile = () => {
   };
 
   const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     return emailRegex.test(email);
   };
 
   const validateContact = (contact) => {
     const contactRegex = /^[0-9]{10}$/; // Example: 10 digits phone number
     return contactRegex.test(contact);
+  };
+
+  const validateName = (name) => {
+    const nameRegex = /^[a-zA-Z]+$/;
+    return nameRegex.test(name);
   };
 
   const handleProfileUpdate = async (e) => {
@@ -68,6 +73,14 @@ const PetOwnerProfile = () => {
 
     if (!validateContact(petowners.contact)) {
       newErrors.contact = 'Enter a valid contact number.';
+    }
+
+    if (!validateName(petowners.fname)) {
+      newErrors.fname = 'First name cannot include numbers or symbols.';
+    }
+
+    if (!validateName(petowners.lname)) {
+      newErrors.lname = 'Last name cannot include numbers or symbols.';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -102,7 +115,7 @@ const PetOwnerProfile = () => {
     }
 
     if (passwordData.newPassword.length < 3) {
-      newErrors.newPassword = 'New password must be at least 6 characters long.';
+      newErrors.newPassword = 'New password must be at least 3 characters long.';
     }
 
     if (passwordData.newPassword !== passwordData.confirmNewPassword) {
@@ -162,7 +175,11 @@ const PetOwnerProfile = () => {
                 type='text'
                 value={petowners.fname || ''}
                 onChange={(e) => setPetOwner({ ...petowners, fname: e.target.value })}
+                isInvalid={!!error.fname}
               />
+              <Form.Control.Feedback type='invalid'>
+                {error.fname}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='mb-3'>
               <Form.Label>Last Name</Form.Label>
@@ -170,7 +187,11 @@ const PetOwnerProfile = () => {
                 type='text'
                 value={petowners.lname || ''}
                 onChange={(e) => setPetOwner({ ...petowners, lname: e.target.value })}
+                isInvalid={!!error.lname}
               />
+              <Form.Control.Feedback type='invalid'>
+                {error.lname}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className='mb-3'>
               <Form.Label>Email</Form.Label>

@@ -6,11 +6,21 @@ const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [pendingAppointments, setPendingAppointments] = useState([]);
   const [showRequested, setShowRequested] = useState(false);
+  const [searchContactNo, setSearchContactNo] = useState('');
+  const [filteredAppointments, setFilteredAppointments] = useState([]);
 
   useEffect(() => {
     fetchAppointments();
     fetchPendingAppointments();
   }, []);
+
+  useEffect(() => {
+    setFilteredAppointments(
+      pendingAppointments.filter(appointment =>
+        appointment.ContactNo.includes(searchContactNo)
+      )
+    );
+  }, [searchContactNo, pendingAppointments]);
 
   const fetchAppointments = async () => {
     const response = await axios.get('http://localhost:3000/auth/appointments');
@@ -20,6 +30,7 @@ const Appointments = () => {
   const fetchPendingAppointments = async () => {
     const response = await axios.get('http://localhost:3000/auth/pending-appointments');
     setPendingAppointments(response.data);
+    setFilteredAppointments(response.data);
   };
 
   const handleAccept = async (appointmentId) => {
@@ -87,7 +98,7 @@ const Appointments = () => {
                         onClick={() => handleAccept(appointment.AppointmentID)}
                       >
                         Accept
-                      </button><br/><br/>
+                      </button><br /><br />
                       <button
                         className="btn btn-danger rounded-3"
                         onClick={() => handleDecline(appointment.AppointmentID)}
@@ -104,6 +115,15 @@ const Appointments = () => {
       )}
 
       <h2 className="mt-4">Today's Appointments</h2>
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by Contact No"
+          value={searchContactNo}
+          onChange={(e) => setSearchContactNo(e.target.value)}
+        />
+      </div>
       <div className="table-responsive">
         <table className="table table-striped table-bordered table-hover">
           <thead>
@@ -120,7 +140,7 @@ const Appointments = () => {
             </tr>
           </thead>
           <tbody>
-            {pendingAppointments.map((appointment) => (
+            {filteredAppointments.map((appointment) => (
               <tr key={appointment.AppointmentID}>
                 <td>{appointment.AppointmentID}</td>
                 <td>{appointment.petid}</td>
