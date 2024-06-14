@@ -70,7 +70,7 @@ function App() {
           <Route path='/petownerdashboard/:petownerId/pets/:petid' element={<Pets />}></Route>
           <Route path='/petownerdashboard/:petownerId/pets/:petid/edit' element={<EditPet />}></Route>
           <Route path='/petownerdashboard/:petownerId/pets/:petid/delete' element={<Pets />}></Route>
-          <Route path='/petownerdashboard/:petownerId/pets/:petId/view' element={<ViewPetCaseHistories />}></Route> 
+          <Route path='/petownerdashboard/:petownerId/pets/:petId/view' element={<ViewPetCaseHistories />}></Route>
         </Route>
         <Route path='/doctordashboard/:doctorId' element={
           <PrivateRoute>

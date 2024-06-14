@@ -14,6 +14,13 @@ const PetOwnerLogin = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        
+        // Check if email contains uppercase letters
+        if (/[A-Z]/.test(values.email)) {
+            setError("Email must not contain uppercase letters.");
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3000/petowner/petownerlogin', {
                 email: values.email,
@@ -45,7 +52,7 @@ const PetOwnerLogin = () => {
                             <label htmlFor="email"><strong>Email</strong></label>
                             <input type="email" id="email" name="email" autoComplete='off' placeholder='Enter Email'
                                 value={values.email} // Ensure that the value is controlled by state
-                                onChange={(e) => setValues({ ...values, email: e.target.value })} className='form-control rounded-0' />
+                                onChange={(e) => setValues({ ...values, email: e.target.value.toLowerCase() })} className='form-control rounded-0' />
                         </div>
                         <div className='mb-3'>
                             <label htmlFor="password"><strong>Password</strong></label>

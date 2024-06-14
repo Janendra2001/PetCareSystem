@@ -18,7 +18,6 @@ const NavBar = () => {
             <Nav.Link href="/home" className='nav-link text-light ms-3'>Home</Nav.Link>
             <Nav.Link href="/blog" className='nav-link text-light ms-3'>Blogs</Nav.Link>
             <Nav.Link href="/meetyourdoctor" className='nav-link text-light ms-3'>Meet Your Doctor</Nav.Link>
-            <Nav.Link href="/petcorner" className='nav-link text-light ms-3'>Pet Corner</Nav.Link>
 
           </Nav>
           

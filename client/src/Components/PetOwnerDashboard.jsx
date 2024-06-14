@@ -73,7 +73,7 @@ const PetOwnerDashboard = () => {
             <i className="fs-4 bi bi-prescription2 ms-2"></i> 
             <span className="ms-2 d-none d-sm-inline">Check Medication Items</span> 
             </Link> 
-          </li> 
+          </li>
           <li className="w-100"> 
             <Link 
             to={`/petownerdashboard/${petownerId}/petownerprofile`} 

@@ -19,6 +19,7 @@ const EnterCases = () => {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     if (petId) {
@@ -117,6 +118,7 @@ const EnterCases = () => {
     const seconds = String(date.getSeconds()).padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
+  
 
   return (
     <div className='container mt-3'>

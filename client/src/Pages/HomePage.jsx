@@ -30,6 +30,9 @@ const HomePage = () => {
       <h1 className="homeTitle display-4">
       <strong>ROYAL PET CARE</strong>
       </h1>
+      <span className="text d-block mb-2">
+        Open hours - 4.00 pm to 9.00 pm everyday
+      </span>
     </div>
   </div>
 </section>
