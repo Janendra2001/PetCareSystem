@@ -70,7 +70,7 @@ const MedicationItems = ({ doctorId }) => {
     const initialData = {
       type: medication.type,
       name: medication.name,
-      expDate: medication.expDate.split('T')[0], // Ensure correct date format
+      expDate: medication.expDate.split('T')[0], 
       receivedIssuedStatus: medication.receivedIssuedStatus,
       quantity: medication.quantity,
       balance: medication.balance,

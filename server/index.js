@@ -23,7 +23,7 @@ setTimeout(() => {
 
 
 // Schedule cron job to send vaccination reminders daily at a specific time
-cron.schedule('0 8 * * *', async () => {
+cron.schedule('4 23 * * *', async () => {
   try {
     console.log('Sending vaccination reminders...');
     await axios.get('http://localhost:3000/auth/send-vaccination-reminders');

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar/NavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom';
-import './Blog.css'; // Import custom CSS file
+import './Blog.css'; 
 
 const API_KEY = 'live_LtDTwcDvowFaf4CFtXatr6JtdubEqeAK6h4t8cfKMmvIIwSdyKyC7SGgBgnr0rHW';
 

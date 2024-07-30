@@ -6,6 +6,7 @@ import multer from 'multer';
 import path from 'path';
 import { __dirname } from '../dirname.js';
 import dotenv from 'dotenv';
+import con from '../utils/db.js';
 
 dotenv.config();
 const router = express.Router();
@@ -29,6 +30,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname)); 
   }
 });
+//Create multer instance in the configured storage engine
 const upload = multer({ storage: storage });
 
 //Pet Owner Registration ------------------------------------------------------------------------------------------------------------
@@ -82,7 +84,6 @@ router.post('/petownerlogin', async (req, res) => {
 });
 
 //Pets.jsx routes-------------------------------------------------------------------------------------------------------------------
-// Add this to serve static files from the uploads directory
 // Middleware
 router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

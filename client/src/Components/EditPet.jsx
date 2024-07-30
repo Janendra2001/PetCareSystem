@@ -94,10 +94,10 @@ const EditPet = () => {
           <input 
             type="text" 
             className="form-control" 
-            id="petName" 
-            name="petName" 
-            value={petDetails.petName} 
-            onChange={handleChange} 
+            id="petName"
+            name="petName"
+            value={petDetails.petName}
+            onChange={handleChange}
             required 
           />
         </div>
@@ -175,7 +175,7 @@ const EditPet = () => {
             src={`http://localhost:3000/uploads/${petDetails.photo}`} 
             alt="Pet" 
             className="img-fluid" 
-            style={{ maxWidth: '300px', maxHeight: '300px' }} // Adjust size here
+            style={{ maxWidth: '300px', maxHeight: '300px' }} 
             />
         </div>
 )}

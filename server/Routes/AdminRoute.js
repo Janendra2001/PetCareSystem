@@ -133,12 +133,12 @@ router.post('/adminlogin', (req, res) => {
             if(result.length > 0) { 
                 const email = result[0].email; 
                 const token = jwt.sign({role: "admin", email: email, id: result[0].id}, "jwt_secret_key", {expiresIn: '1d'}); 
-                res.cookie('token', token) 
+                res.cookie('token', token)
                 return res.json({loginstatus: true}) 
-            } else { 
-                return res.json({loginstatus: false, Error: "wrong email or password"}) 
+            } else {
+                return res.json({loginstatus: false, Error: "wrong email or password"})
             }
-}) ; 
+}) ;
 });
 
 
